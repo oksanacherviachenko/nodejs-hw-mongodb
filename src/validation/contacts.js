@@ -13,9 +13,6 @@ export const createContactSchema = Joi.object({
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
 });
 
-const validationResult = createStudentSchema.validate(userData, {
-  abortEarly: false,
-});
 
 export const updateContactSchema = Joi.object({
   name: Joi.string().min(3).max(20),

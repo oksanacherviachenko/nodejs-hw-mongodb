@@ -2,6 +2,7 @@ import { createContact, getAllContacts, getContactById } from "../services/conta
 import createHttpError from 'http-errors';
 import { deleteContact } from "../services/contacts.js";
 import { updateContact } from "../services/contacts.js";
+import { createContactSchema } from "../validation/contacts.js";
 
 export const getContactsController = async (req, res, next) => {
     try {
