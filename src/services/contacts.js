@@ -6,6 +6,7 @@ export const getAllContacts = async ({
   perPage = 10,
   sortBy = '_id',
   sortOrder = SORT_ORDER.ASC,
+  filter = {},
 }) => {
   page = Number(page);
   perPage = Number(perPage);
@@ -13,16 +14,26 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  // Отримуємо загальну кількість контактів
-  const totalItems = await ContactCollection.countDocuments();
-  const totalPages = Math.ceil(totalItems / perPage);
+  const filterQuery = {};
 
-  // Отримуємо відсортовані та відфільтровані контакти
-  const contacts = await ContactCollection.find()
-    .skip(skip)
-    .limit(limit)
-    .sort({ [sortBy]: sortOrder })
-    .exec();
+  if (filter.contactType) {
+    filterQuery.contactType = filter.contactType;
+  }
+
+  if (filter.isFavourite !== undefined) {
+    filterQuery.isFavourite = filter.isFavourite;
+  }
+
+  const [totalItems, contacts] = await Promise.all([
+    ContactCollection.countDocuments(filterQuery), 
+    ContactCollection.find(filterQuery)
+      .skip(skip)
+      .limit(limit)
+      .sort({ [sortBy]: sortOrder })
+      .exec(), 
+  ]);
+
+  const totalPages = Math.ceil(totalItems / perPage);
 
   return {
     data: contacts,
