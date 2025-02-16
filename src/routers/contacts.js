@@ -6,17 +6,22 @@ import { createContactSchema } from "../validation/contacts.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { updateContactSchema } from "../validation/contacts.js";
 import { isValidId } from '../middlewares/isValidId.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { checkRoles } from "../middlewares/checkRoles.js";
+import { ROLES } from "../constants/index.js";
 
 const router = Router();
 
-router.get('/contacts', ctrlWrapper(getContactsController));
+router.use(authenticate);
 
-  router.get('/contacts/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.get('/', checkRoles(ROLES.USER), ctrlWrapper(getContactsController));
 
-router.post('/contacts', validateBody(createContactSchema), ctrlWrapper(createContactController));
+  router.get('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(getContactByIdController));
 
-router.delete('/contacts/:contactId', isValidId, ctrlWrapper(deleteContactController));
+router.post('/', checkRoles(ROLES.USER), validateBody(createContactSchema), ctrlWrapper(createContactController));
 
-router.patch('/contacts/:contactId', isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+router.delete('/:contactId', checkRoles(ROLES.USER), isValidId, ctrlWrapper(deleteContactController));
+
+router.patch('/:contactId', checkRoles(ROLES.USER), isValidId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
 
 export default router;
