@@ -10,7 +10,7 @@ export const createContactSchema = Joi.object({
     'any.required': 'Username is required',
   }),
   phoneNumber: Joi.string().min(3).max(20).required(),
-  email: Joi.string().email().min(3).max(20),
+  email: Joi.string().email().min(3).max(25),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
   userId: Joi.string().custom((value, helper) => {

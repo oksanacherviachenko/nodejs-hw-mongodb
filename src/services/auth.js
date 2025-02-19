@@ -8,6 +8,9 @@ import { UsersCollection } from '../db/models/user.js';
 import jwt from 'jsonwebtoken';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { sendEmail } from '../utils/sendMail.js';
+import handlebars from 'handlebars';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 
 export const registerUser = async (payload) => {
   const existingUser = await UsersCollection.findOne({ email: payload.email });
@@ -65,29 +68,41 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
 export const requestResetToken = async (email) => {
   const user = await UsersCollection.findOne({ email });
-
   if (!user) {
-    throw createHttpError(404, 'User not found!');
+    throw createHttpError(404, 'User not found');
   }
-
   const resetToken = jwt.sign(
-    { sub: user._id, email },
+    {
+      sub: user._id,
+      email,
+    },
     getEnvVar('JWT_SECRET'),
-    { expiresIn: '5m' }
+    {
+      expiresIn: '15m',
+    },
   );
 
-  const resetLink = `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`;
+  const resetPasswordTemplatePath = path.join(
+    TEMPLATES_DIR,
+    'reset-password-email.html',
+  );
 
-  try {
-    await sendEmail({
-      from: getEnvVar('SMTP_FROM'), 
-      to: email,
-      subject: 'Reset your password',
-      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-    });
-  } catch (error) {
-    throw createHttpError(500, 'Failed to send the email, please try again later.');
-  }
+  const templateSource = (
+    await fs.readFile(resetPasswordTemplatePath)
+  ).toString();
+
+  const template = handlebars.compile(templateSource);
+  const html = template({
+    name: user.name,
+    link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+  });
+
+  await sendEmail({
+    from: getEnvVar(SMTP.SMTP_FROM),
+    to: email,
+    subject: 'Reset your password',
+    html,
+  });
 };
 
 
