@@ -1,20 +1,18 @@
 import dotenv from 'dotenv';
-dotenv.config(); 
-
 import { initMongoConnection } from './db/initMongoConnection.js';
 import { setupServer } from './server.js';
+import { createDirIfNotExists } from './utils/createDirIfNotExists.js';
+import { TEMP_UPLOAD_DIR, UPLOAD_DIR } from './constants/index.js';
 
+dotenv.config(); 
 const bootstrap = async () => {
-  try {
-    await initMongoConnection(); 
+  await initMongoConnection();
+  await createDirIfNotExists(TEMP_UPLOAD_DIR);
+  await createDirIfNotExists(UPLOAD_DIR);
     setupServer(); 
-  } catch (error) {
-    console.error('Error during application bootstrap:', error);
-    process.exit(1); 
-  }
+  
 };
 
-bootstrap();
-console.log('MONGODB_USER:', process.env.MONGODB_USER);
+void bootstrap();
 
 
