@@ -2,7 +2,7 @@
 import { HttpError } from 'http-errors';
 
 export const errorHandler = (err, req, res, next) => {
-  console.error('❌ Помилка:', err); // детальне логування в консоль
+  console.error('❌ Помилка:', err); 
 
   if (err instanceof HttpError) {
     res.status(err.status).json({

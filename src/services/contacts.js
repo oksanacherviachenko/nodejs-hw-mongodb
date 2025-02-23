@@ -56,7 +56,7 @@ export const createContact = async (payload) => {
 };
 
 export const deleteContact = async (contactId, userId) => {
-  return await ContactCollection.findOneAndDelete({ _id: contactId, userId }); // ✅ Тепер контакт видаляється тільки у власника
+  return await ContactCollection.findOneAndDelete({ _id: contactId, userId });  
 };
 
 export const updateContact = async (contactId, userId, payload, options = {}) => {

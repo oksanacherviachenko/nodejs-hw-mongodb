@@ -19,7 +19,7 @@ export const createContactSchema = Joi.object({
     }
     return true;
   }),
-  photo: Joi.any().optional(), // ✅ Додано поле photo для підтримки multipart/form-data
+  photo: Joi.any().optional(), 
 });
 
 export const updateContactSchema = Joi.object({
@@ -28,5 +28,5 @@ export const updateContactSchema = Joi.object({
   email: Joi.string().email().min(3).max(20),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal'),
-  photo: Joi.any().optional(), // ✅ Додано і тут для PATCH запиту (опціонально)
+  photo: Joi.any().optional(), 
 });

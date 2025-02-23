@@ -18,7 +18,7 @@ export const saveFileToCloudinary = async (file) => {
     return response.secure_url;
   } catch (error) {
     console.error('Cloudinary upload error:', error);
-    await fs.unlink(file.path); // видаляємо файл навіть у разі помилки
+    await fs.unlink(file.path); 
     throw error;
   }
 };
