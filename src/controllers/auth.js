@@ -9,7 +9,6 @@ import {
 } from '../services/auth.js';
 import { THIRTY_DAYS } from '../constants/index.js';
 
-
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -74,8 +73,8 @@ export const requestResetEmailController = async (req, res) => {
 export const resetPasswordController = async (req, res) => {
   await resetPassword(req.body);
   res.json({
-    message: 'Password was successfully reset!',
     status: 200,
+    message: 'Password has been successfully reset.',
     data: {},
   });
 };

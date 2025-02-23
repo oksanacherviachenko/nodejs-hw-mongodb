@@ -32,6 +32,11 @@ export const setupServer = () => {
     res.json({ message: 'Hello world!' });
   });
 
+    app.use((req, res, next) => {
+    console.log(`[${req.method}] ${req.path}`);
+    next();
+  });
+
   app.use(router);
   app.use('*', notFoundHandler);
   app.use(errorHandler);
