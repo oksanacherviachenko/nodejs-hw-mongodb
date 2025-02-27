@@ -1,0 +1,33 @@
+#swagger/paths/contacts/get.yaml
+tags:
+  - Contacts
+summary: Get list of contacts
+operationId: getContacts
+description: 'Retrieve a list of contacts with filters and pagination'
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    example: 1
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      example: 10
+responses:
+  '200':
+    description: Successfully retrieved contacts
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '../../components/schemas/contact.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

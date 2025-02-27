@@ -1,0 +1,22 @@
+#swagger/paths/contacts/delete.yaml
+tags:
+  - Contacts
+summary: Delete a contact
+operationId: deleteContact
+description: 'Delete a contact by ID'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: 'Contact ID'
+responses:
+  '204':
+    description: Contact deleted successfully
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '404':
+    description: Contact not found
