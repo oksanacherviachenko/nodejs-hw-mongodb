@@ -3,14 +3,35 @@ tags:
   - Contacts
 summary: Create a new contact
 operationId: createContact
-description: 'Create a contact record'
+description: Create a contact record
 security:
   - bearerAuth: []
 requestBody:
+  required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: '../../components/schemas/contact.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'John Doe'
+          phoneNumber:
+            type: string
+            example: '+380971234567'
+          email:
+            type: string
+            example: 'johndoe@email.com'
+          isFavourite:
+            type: boolean
+            example: false
+          contactType:
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: 'work'
+          photo:
+            type: string
+            format: binary
 responses:
   '201':
     description: Contact created successfully

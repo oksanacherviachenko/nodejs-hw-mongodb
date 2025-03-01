@@ -1,3 +1,4 @@
+#docs/openapi.yaml
 openapi: 3.1.0
 info:
   version: 1.0.0
@@ -12,7 +13,7 @@ tags:
   - name: Auth
     description: Authentication operations.
 servers:
-  - url: http://localhost:3000
+  - url: https://nodejs-hw-mongodb-17-icsz.onrender.com
 paths:
   /contacts:
     get:

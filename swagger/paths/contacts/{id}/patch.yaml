@@ -3,7 +3,7 @@ tags:
   - Contacts
 summary: Update a contact
 operationId: updateContact
-description: 'Update an existing contact'
+description: Update an existing contact
 security:
   - bearerAuth: []
 parameters:
@@ -16,9 +16,29 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
-        $ref: '../../../components/schemas/contact.yaml'
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'Jane Doe'
+          phoneNumber:
+            type: string
+            example: '+380971234567'
+          email:
+            type: string
+            example: 'janedoe@email.com'
+          isFavourite:
+            type: boolean
+            example: true
+          contactType:
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: 'home'
+          photo:
+            type: string
+            format: binary
 responses:
   '200':
     description: Contact updated successfully

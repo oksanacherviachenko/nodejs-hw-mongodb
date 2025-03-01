@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://nodejs-hw-mongodb-17-icsz.onrender.com"
     }
   ],
   "tags": [
@@ -51,9 +51,21 @@
             "in": "query",
             "name": "perPage",
             "schema": {
-              "type": "integer",
-              "example": 10
-            }
+              "type": "integer"
+            },
+            "example": 10
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "example": "asc"
           }
         ],
         "responses": {
@@ -93,10 +105,42 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+380971234567"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@email.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "work"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -238,9 +282,40 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/contact"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Jane Doe"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+380971234567"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "janedoe@email.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "home"
+                  },
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -279,14 +354,12 @@
         "required": [
           "_id",
           "name",
-          "age",
-          "gender",
-          "avgMark",
-          "onDuty"
+          "phoneNumber",
+          "contactType"
         ],
         "properties": {
           "_id": {
-            "description": "Contact's id",
+            "description": "Contact's ID",
             "type": "string",
             "example": "65e4decdd286b30065d54af9"
           },
@@ -295,39 +368,35 @@
             "type": "string",
             "example": "John Doe"
           },
-          "age": {
-            "description": "Contact's age",
-            "type": "number",
-            "example": 12
-          },
-          "gender": {
-            "description": "Contact's age",
+          "phoneNumber": {
+            "description": "Contact's phone number",
             "type": "string",
-            "enum": [
-              "male",
-              "female",
-              "other"
-            ]
+            "example": "+380971234567"
           },
-          "avgMark": {
-            "description": "Contact's average mark. Should be between 1 and 12",
-            "type": "number",
-            "example": 9.7
+          "email": {
+            "description": "Contact's email",
+            "type": "string",
+            "example": "johndoe@email.com"
           },
-          "onDuty": {
-            "description": "Whether is contact on duty",
+          "isFavourite": {
+            "description": "Is contact favorite?",
             "type": "boolean",
             "example": false
           },
-          "parentId": {
-            "description": "Contact's parent id",
+          "contactType": {
+            "description": "Type of contact",
             "type": "string",
-            "example": "65e4decdd286b30065d54af9"
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "example": "work"
           },
           "photo": {
-            "description": "Link to contact's photo",
+            "description": "URL to contact's photo",
             "type": "string",
-            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+            "example": "https://example.com/photo.jpg"
           }
         }
       }

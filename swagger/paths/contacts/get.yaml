@@ -3,7 +3,7 @@ tags:
   - Contacts
 summary: Get list of contacts
 operationId: getContacts
-description: 'Retrieve a list of contacts with filters and pagination'
+description: Retrieve a list of contacts with filters and pagination
 security:
   - bearerAuth: []
 parameters:
@@ -16,7 +16,13 @@ parameters:
     name: perPage
     schema:
       type: integer
-      example: 10
+    example: 10
+  - in: query
+    name: sort
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+    example: 'asc'
 responses:
   '200':
     description: Successfully retrieved contacts
