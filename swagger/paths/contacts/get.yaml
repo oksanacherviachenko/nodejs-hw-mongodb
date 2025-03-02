@@ -28,7 +28,13 @@ parameters:
     description: Sort contacts by field
     schema:
       type: string
-      enum: ['name', 'phoneNumber', 'email']
+      oneOf:
+        - const: 'name'
+          description: Sort by name
+        - const: 'phoneNumber'
+          description: Sort by phone number
+        - const: 'email'
+          description: Sort by email
     example: 'name'
     style: form
     explode: false
@@ -37,7 +43,13 @@ parameters:
     description: Filter contacts by type
     schema:
       type: string
-      enum: ['work', 'home', 'personal']
+      oneOf:
+        - const: 'work'
+          description: Work contacts
+        - const: 'home'
+          description: Home contacts
+        - const: 'personal'
+          description: Personal contacts
     example: 'work'
     style: form
     explode: false
