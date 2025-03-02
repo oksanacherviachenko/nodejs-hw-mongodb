@@ -31,9 +31,19 @@ parameters:
         - name
         - phoneNumber
         - email
-      default: name
+      example: name
   - in: query
-    name: filter
+    name: sortOrder
+    description: Sorting order (ascending or descending)
+    required: false
+    schema:
+      type: string
+      enum:
+        - asc
+        - desc
+      example: asc
+  - in: query
+    name: contactType
     description: Filter contacts by type
     required: false
     schema:
@@ -42,7 +52,14 @@ parameters:
         - work
         - home
         - personal
-      default: work
+      example: work
+  - in: query
+    name: isFavourite
+    description: Filter contacts by favourite status
+    required: false
+    schema:
+      type: boolean
+      example: true
 responses:
   '200':
     description: Successfully retrieved contacts
