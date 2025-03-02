@@ -3,31 +3,44 @@ tags:
   - Contacts
 summary: Get list of contacts
 operationId: getContacts
-description: Retrieve a list of contacts with filters and pagination
+description: Retrieve a list of contacts with filters, sorting, and pagination
 security:
   - bearerAuth: []
 parameters:
   - in: query
     name: page
+    description: Page number for pagination
     schema:
       type: integer
     example: 1
+    style: form
+    explode: false
   - in: query
     name: perPage
+    description: Number of contacts per page
     schema:
       type: integer
     example: 10
+    style: form
+    explode: false
   - in: query
     name: sortBy
+    description: Sort contacts by field
     schema:
       type: string
       enum: ['name', 'phoneNumber', 'email']
     example: 'name'
+    style: form
+    explode: false
   - in: query
     name: filter
+    description: Filter contacts by type
     schema:
       type: string
+      enum: ['work', 'home', 'personal']
     example: 'work'
+    style: form
+    explode: false
 responses:
   '200':
     description: Successfully retrieved contacts
@@ -48,3 +61,19 @@ responses:
                 $ref: '../../components/schemas/contact.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
+  '404':
+    description: Contacts not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 404
+            message:
+              type: string
+              example: 'No contacts found'
+            data:
+              type: object
+              example: {}
