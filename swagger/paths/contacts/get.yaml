@@ -3,96 +3,88 @@ tags:
   - Contacts
 summary: Get list of contacts
 operationId: getContacts
-description: Retrieve a list of contacts with filters, sorting, and pagination
+description: 'Get list of contacts with this endpoint'
 security:
   - bearerAuth: []
 parameters:
   - in: query
     name: page
-    description: Page number for pagination
-    required: false
     schema:
       type: integer
       example: 1
   - in: query
     name: perPage
-    description: Number of contacts per page
-    required: false
     schema:
       type: integer
       example: 10
   - in: query
     name: sortBy
-    description: Sort contacts by field
-    required: false
     schema:
       type: string
-      enum:
-        - name
-        - phoneNumber
-        - email
-      example: name
+      example: 'name'
+    description: "All contacts's fields can be mentioned. Default value - _id"
   - in: query
     name: sortOrder
-    description: Sorting order (ascending or descending)
-    required: false
     schema:
       type: string
-      enum:
-        - asc
-        - desc
-      example: asc
+      enum: ['asc', 'desc']
+      example: 'asc'
   - in: query
     name: contactType
-    description: Filter contacts by type
-    required: false
     schema:
       type: string
-      enum:
-        - work
-        - home
-        - personal
-      example: work
-  - in: query
-    name: isFavourite
-    description: Filter contacts by favourite status
-    required: false
-    schema:
-      type: boolean
-      example: true
+      enum: ['work', 'home', 'personal']
+      example: personal
 responses:
   '200':
-    description: Successfully retrieved contacts
+    description: Successfully found contacts!
     content:
       application/json:
         schema:
           type: object
+          required:
+            - status
+            - message
+            - data
           properties:
             status:
               type: integer
               example: 200
             message:
               type: string
-              example: 'Contacts fetched successfully'
-            data:
-              type: array
-              items:
-                $ref: '../../components/schemas/contact.yaml'
-  '401':
-    $ref: '../../components/responses/401.yaml'
-  '404':
-    description: Contacts not found
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 404
-            message:
-              type: string
-              example: 'No contacts found'
+              example: Successfully found contacts!
             data:
               type: object
-              example: {}
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../../components/schemas/contact.yaml
+                page:
+                  type: number
+                  example: 2
+                perPage:
+                  type: number
+                  example: 4
+                totalItems:
+                  type: number
+                  example: 4
+                totalPages:
+                  type: number
+                  example: 4
+                hasNextPage:
+                  type: boolean
+                  example: false
+                hasPreviousPage:
+                  type: boolean
+                  example: true
+  '401':
+    $ref: '../../components/responses/401.yaml'
