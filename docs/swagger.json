@@ -57,15 +57,24 @@
           },
           {
             "in": "query",
-            "name": "sort",
+            "name": "sortBy",
             "schema": {
               "type": "string",
               "enum": [
-                "asc",
-                "desc"
+                "name",
+                "phoneNumber",
+                "email"
               ]
             },
-            "example": "asc"
+            "example": "name"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "schema": {
+              "type": "string"
+            },
+            "example": "work"
           }
         ],
         "responses": {
@@ -76,6 +85,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contacts fetched successfully"
+                    },
                     "data": {
                       "type": "array",
                       "items": {
@@ -110,6 +127,11 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -151,7 +173,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact created successfully"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
                 }
               }
             }
@@ -287,20 +322,16 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string",
-                    "example": "Jane Doe"
+                    "type": "string"
                   },
                   "phoneNumber": {
-                    "type": "string",
-                    "example": "+380971234567"
+                    "type": "string"
                   },
                   "email": {
-                    "type": "string",
-                    "example": "janedoe@email.com"
+                    "type": "string"
                   },
                   "isFavourite": {
-                    "type": "boolean",
-                    "example": true
+                    "type": "boolean"
                   },
                   "contactType": {
                     "type": "string",
@@ -308,8 +339,7 @@
                       "work",
                       "home",
                       "personal"
-                    ],
-                    "example": "home"
+                    ]
                   },
                   "photo": {
                     "type": "string",
@@ -326,7 +356,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact updated successfully"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
                 }
               }
             }

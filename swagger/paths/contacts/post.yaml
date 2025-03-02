@@ -12,6 +12,10 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
         properties:
           name:
             type: string
@@ -38,6 +42,15 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/contact.yaml'
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Contact created successfully'
+            data:
+              $ref: '../../components/schemas/contact.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
