@@ -23,6 +23,8 @@ export const getContactsController = async (req, res, next) => {
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
 
+    console.log('Received query params:', req.query); 
+
     const contactsData = await getAllContacts({
       userId: req.user._id,
       page,
